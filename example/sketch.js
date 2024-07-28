@@ -21,6 +21,9 @@ function setup() {
     textFont(font);
     textSize(32);
 
+
+
+
     // Parse the CSV data
     for (let i = 0; i < csvData.getRowCount(); i++) {
         let month = csvData.getString(i, 'Month');
@@ -30,6 +33,7 @@ function setup() {
         frames.push(totalbirds);
     }
 
+  
     // Initialize the random dot positions
     initializebirds();
 
@@ -44,6 +48,11 @@ function setup() {
     background(255);
     translate(-width / 2, -height / 2);
     frameRate(10);
+    brush.field("seabed");
+
+    // Create the strokes and store them in the array
+    brush.pick("HB");
+    brush.strokeWeight(1);
 }
 
 function initializebirds() {
@@ -78,7 +87,7 @@ function draw() {
                     let bird = birds[i];
                     fill(bird.color);
                     noStroke();
-                    ellipse(bird.x, bird.y, 2, 2); // Draw very small birds
+                    drawSingleLine(i, bird.x, bird.y, 10)
                 }
             }
 
@@ -92,4 +101,9 @@ function draw() {
             currentFrame = 0; // Reset the frame counter to loop indefinitely
         }
     }
+}
+
+function drawSingleLine(stroke, x,y,d) {
+    brush.stroke(random(palette));
+    brush.circle(x,y, d);
 }

@@ -57,15 +57,6 @@ function setup() {
     // Create the strokes and store them in the array
     brush.pick("HB");
     brush.strokeWeight(1);
-    for (let i = 0; i < 200; i++) {
-        strokes.push({
-            color: random(palette),
-            x1: random(0, width),
-            y1: random(0, width),
-            x2: random(0, width),
-            angle: PI / 2
-        });
-    }
 }
 
 function draw() {
@@ -75,9 +66,7 @@ function draw() {
         let numStrokes = frames[currentFrame];
 
         for (let i = 0; i < numStrokes; i++) {
-            let stroke = strokes[i];
-            brush.stroke(stroke.color);
-            brush.flowLine(stroke.x1, stroke.y1, stroke.x2, stroke.angle);
+            drawSingleLine(strokes[i]);
         }
 
         // Display the current frame text
@@ -89,4 +78,9 @@ function draw() {
     } else {
         currentFrame = 0; // Reset the frame counter to loop indefinitely
     }
+}
+
+function drawSingleLine(stroke) {
+    brush.stroke(random(palette));
+    brush.circle(random(0, width), random(0, width), 10);
 }
