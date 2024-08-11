@@ -33,6 +33,9 @@ function setup() {
         frames.push(totalbirds);
     }
 
+
+  
+
   
     // Initialize the random dot positions
     initializebirds();
@@ -45,14 +48,33 @@ function setup() {
     // Resume audio context upon user gesture
     userStartAudio();
 
-    background(255);
-    translate(-width / 2, -height / 2);
+    background("#fcf7f3");
     frameRate(10);
     brush.field("seabed");
 
     // Create the strokes and store them in the array
     brush.pick("HB");
     brush.strokeWeight(1);
+
+
+      //Background
+      brush.pick("charcoal");
+      brush.strokeWeight(1);
+      brush.stroke('#202297');
+              translate(-width / 2, -height / 2);
+
+      for (let i = 0; i < height; i+=2) {  // Adjust the number of lines for denser or lighter effect
+          let x1 = 10;
+          let y1 = i+10;
+          let angle = random(TWO_PI);
+          let length = width - 10;  // Length of each line segment
+  
+          let x2 = x1 + cos(angle) * length;
+          let y2 = y1 + sin(angle)
+  
+          brush.line(x1, y1, x2, y2);
+        }
+  
 }
 
 function initializebirds() {
@@ -72,35 +94,35 @@ function toggleAnimation() {
 }
 
 function draw() {
-    if (isAnimating) {
-        if (currentFrame < frames.length) {
-            background(255);
-            translate(-width / 2, -height / 2);
-            let numbirds = frames[currentFrame];
-            let month = months[currentFrame];
+    // if (isAnimating) {
+    //     if (currentFrame < frames.length) {
+    //         background("#fcf7f3");
 
-            // Debugging output
-            console.log(`Drawing ${numbirds} birds for ${month}`);
+            
+            
+    //         translate(-width / 2, -height / 2);
+    //         let numbirds = frames[currentFrame];
+    //         let month = months[currentFrame];
 
-            for (let i = 0; i < numbirds; i++) {
-                if (i < birds.length) {
-                    let bird = birds[i];
-                    fill(bird.color);
-                    noStroke();
-                    drawSingleLine(i, bird.x, bird.y, 10)
-                }
-            }
+    //         // for (let i = 0; i < numbirds; i++) {
+    //         //     if (i < birds.length) {
+    //         //         let bird = birds[i];
+    //         //         fill(bird.color);
+    //         //         noStroke();
+    //         //         drawSingleLine(i, bird.x, bird.y, 10)
+    //         //     }
+    //         // }
 
-            // Display the current frame text
-            fill(0);
-            noStroke();
-            text(`${month}`, 10, 50);
+    //         // Display the current frame text
+    //         fill(0);
+    //         noStroke();
+    //         text(`${month}`, 10, 50);
 
-            currentFrame++;
-        } else {
-            currentFrame = 0; // Reset the frame counter to loop indefinitely
-        }
-    }
+    //         currentFrame++;
+    //     } else {
+    //         currentFrame = 0; // Reset the frame counter to loop indefinitely
+    //     }
+    // }
 }
 
 function drawSingleLine(stroke, x,y,d) {

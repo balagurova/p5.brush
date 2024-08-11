@@ -43,7 +43,7 @@ function setup() {
     textFont(font);
     textSize(32);
 
-    background(255);
+    background("#fcf7f3");
     translate(-width / 2, -height / 2);
     brush.pick("charcoal");
     brush.strokeWeight(1);
@@ -61,7 +61,7 @@ function setup() {
 
 function draw() {
     if (currentFrame < frames.length) {
-        background(255);
+        background(0);
         translate(-width / 2, -height / 2);
         let numStrokes = frames[currentFrame];
 
