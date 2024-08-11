@@ -58,24 +58,11 @@ function setup() {
 
 
       //Background
-      brush.pick("charcoal");
-      brush.strokeWeight(1);
-      brush.stroke('#202297');
-              translate(-width / 2, -height / 2);
+     
+     pencilShadedSquare(0, 0, width, height);
 
-      for (let i = 0; i < height; i+=2) {  // Adjust the number of lines for denser or lighter effect
-          let x1 = 10;
-          let y1 = i+10;
-          let angle = random(TWO_PI);
-          let length = width - 10;  // Length of each line segment
-  
-          let x2 = x1 + cos(angle) * length;
-          let y2 = y1 + sin(angle)
-  
-          brush.line(x1, y1, x2, y2);
-        }
-  
-}
+              
+            }
 
 function initializebirds() {
     let maxBirds = Math.max(...frames);
@@ -87,6 +74,46 @@ function initializebirds() {
         });
     }
 }
+
+function pencilShadedSquare(x, y, w, h) {
+    brush.pick("HB");
+    brush.strokeWeight(1);
+    brush.stroke('#202297');
+
+    let density = 5000;  // Adjust for more or fewer strokes
+    let maxLineLength = 200;  // Maximum length of each stroke
+    let noiseScale = 0.02;  // Scale for the Perlin noise
+
+    for (let i = 0; i < density; i++) {
+        // Calculate the noise offset
+        let noiseOffsetX = noise(i * noiseScale) * w;
+        let noiseOffsetY = noise((i + 1000) * noiseScale) * h;
+
+        // Random start position within the square, modified by noise
+        let startX = x - width / 2 + noiseOffsetX;
+        let startY = y - height / 2 + noiseOffsetY;
+
+        // Angle and length for the line, introducing some noise
+        let angle = noise((i + 2000) * noiseScale) * TWO_PI;
+        let length = noise((i + 3000) * noiseScale) * maxLineLength;
+
+        // Calculate the end positions
+        let endX = startX + cos(angle) * length;
+        let endY = startY + sin(angle) * length;
+
+        // Ensure the line stays within the canvas bounds
+        endX = constrain(endX, x - width / 2, x + w - width / 2);
+        endY = constrain(endY, y - height / 2, y + h - height / 2);
+
+        brush.line(startX, startY, endX, endY);
+    }
+}
+
+
+
+
+
+
 
 function toggleAnimation() {
     isAnimating = !isAnimating;
