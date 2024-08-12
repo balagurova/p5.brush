@@ -61,7 +61,7 @@ function setup() {
 
 function draw() {
     if (currentFrame < frames.length) {
-        background(0);
+        background("#fcf7f3");
         translate(-width / 2, -height / 2);
         let numStrokes = frames[currentFrame];
 
