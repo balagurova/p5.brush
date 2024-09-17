@@ -68,3 +68,16 @@ line-height: 1.4;
 .btn-segment:hover {
   background-color: #ddd;
 }
+
+
+#controls {
+  margin-bottom: 10px;
+}
+
+#speedSlider {
+  width: 150px;
+}
+
+#playPauseButton {
+  margin-left: 10px;
+}
