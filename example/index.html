@@ -2,25 +2,93 @@
 <html lang="en">
 
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/addons/p5.sound.min.js"></script>
-  <script src="./spectral.js"></script>
-  <script src="./p5.brush.js"></script>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <link rel="stylesheet" href="https://use.typekit.net/vbq3ahk.css">  <meta charset="utf-8" />
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="utf-8" />
+  <style>
+    .btn-segment {
+      padding: 10px 20px;
+      margin: 5px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .btn-segment:hover {
+      background-color: #ddd;
+    }
+    .btn-segment.active {
+      background-color: #ccc;
+    }
+  </style>
 </head>
+
 <body>
   <div class="content">
-    <nav><a href="/example/about.html">About</a></nav>
-  <div class="header">
-    <h1>Birdsong of Sorrow above Ukraine</h1>
-  <p>Lorem ipsum dolor sit amet consectetur. Ullamcorper at arcu eu non nibh pulvinar urna etiam tincidunt. In augue elementum eget sodales eget vehicula. Eget augue mi luctus senectus nullam. </p>
-</div>
-  <main>
-  </main>
-</div>
-  <script src="sketch.js"></script>
+    <div class="header">
+      <h1>Birdsong of Sorrow above Ukraine</h1>
+    <p>Lorem ipsum dolor sit amet consectetur. Ullamcorper at arcu eu non nibh pulvinar urna etiam tincidunt. In augue elementum eget sodales eget vehicula. Eget augue mi luctus senectus nullam. </p>
+  </div>
+
+    <!-- Segmented control to switch between scripts -->
+    <div>
+      <button id="btnGrid" class="btn-segment active" onclick="switchScript('grid')">Grid</button>
+      <button id="btnAnimation" class="btn-segment" onclick="switchScript('animation')">Birds</button>
+    </div>
+
+    <!-- Container for p5 canvas -->
+    <main id="canvas-container"></main>
+  </div>
+
+  <!-- Dynamic loading of p5.js sketches -->
+  <script>
+    let currentSketch;
+
+    // Function to clear and redraw the canvas
+    function clearCanvas() {
+      const main = document.getElementById('canvas-container');
+      main.innerHTML = '';  // Clear the current canvas
+    }
+
+    // Function to switch between scripts
+    function switchScript(type) {
+      
+      // Reset button styles
+      document.getElementById('btnGrid').classList.remove('active');
+      document.getElementById('btnAnimation').classList.remove('active');
+
+      // Set active button
+      if (type === 'grid') {
+        document.getElementById('btnGrid').classList.add('active');
+      } else {
+        document.getElementById('btnAnimation').classList.add('active');
+      }
+
+      // Remove the current sketch if it exists
+      if (currentSketch) {
+        currentSketch.remove(); // This will remove the canvas created by p5.js
+      }
+
+      clearCanvas();  // Clear the container for the canvas
+
+      // Dynamically load the correct sketch
+      if (type === 'grid') {
+        currentSketch = new p5(sketchGrid, 'canvas-container'); // Load the first grid sketch
+      } else {
+        currentSketch = new p5(sketchAnimation, 'canvas-container'); // Load the second bird sketch
+      }
+    }
+
+    // Load the default sketch (Grid) when the page loads
+    window.onload = () => {
+      switchScript('grid');
+    };
+  </script>
+
+  <!-- Load the external sketches -->
+  <script src="sketchGrid.js"></script>
+  <script src="sketchAnimation.js"></script>
+
 </body>
 
 </html>

@@ -57,30 +57,51 @@ function setup() {
     // Create the strokes and store them in the array
     brush.pick("HB");
     brush.strokeWeight(1);
+
+     // Initialize the random dot positions
+     initializebirds();
+     
+           //Background
+           brush.pick("charcoal");
+           brush.strokeWeight(1);
+           brush.stroke('#202297');
+                   translate(-width / 2, -height / 2);
+     
+           for (let i = 0; i < height; i+=2) {  // Adjust the number of lines for denser or lighter effect
+               let x1 = 10;
+               let y1 = i+10;
+               let angle = random(TWO_PI);
+               let length = width - 10;  // Length of each line segment
+       
+               let x2 = x1 + cos(angle) * length;
+               let y2 = y1 + sin(angle)
+       
+               brush.line(x1, y1, x2, y2);
+             }
 }
 
 function draw() {
-    if (currentFrame < frames.length) {
-        background("#fcf7f3");
-        translate(-width / 2, -height / 2);
-        let numStrokes = frames[currentFrame];
+    // if (currentFrame < frames.length) {
+    //     background("#fcf7f3");
+    //     translate(-width / 2, -height / 2);
+    //     let numStrokes = frames[currentFrame];
 
-        for (let i = 0; i < numStrokes; i++) {
-            drawSingleLine(strokes[i]);
-        }
+    //     for (let i = 0; i < numStrokes; i++) {
+    //         drawSingleLine(strokes[i]);
+    //     }
 
-        // Display the current frame text
-        fill(0);
-        noStroke();
-        text(`Day ${currentFrame + 1}`, 10, 30);
+    //     // Display the current frame text
+    //     fill(0);
+    //     noStroke();
+    //     text(`Day ${currentFrame + 1}`, 10, 30);
 
-        currentFrame++;
-    } else {
-        currentFrame = 0; // Reset the frame counter to loop indefinitely
-    }
+    //     currentFrame++;
+    // } else {
+    //     currentFrame = 0; // Reset the frame counter to loop indefinitely
+    // }
 }
 
-function drawSingleLine(stroke) {
-    brush.stroke(random(palette));
-    brush.circle(random(0, width), random(0, width), 10);
-}
+// function drawSingleLine(stroke) {
+//     brush.stroke(random(palette));
+//     brush.circle(random(0, width), random(0, width), 10);
+// }
