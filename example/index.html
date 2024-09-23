@@ -3,13 +3,14 @@
 
 <head>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5.brush@1.1.1/dist/p5.brush.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
   <meta charset="utf-8" />
   <style>
     .btn-segment {
       padding: 10px 20px;
       margin: 5px;
-      background-color: #f0f0f0;
+      background-color: #F1F1E5;
       border: 1px solid #ccc;
       cursor: pointer;
       display: inline-block;
@@ -32,6 +33,7 @@
 
     <!-- Segmented control to switch between scripts -->
     <div>
+      <div id="test" class="test"></div>
       <button id="btnGrid" class="btn-segment active" onclick="switchScript('grid')">Grid</button>
       <button id="btnAnimation" class="btn-segment" onclick="switchScript('animation')">Birds</button>
     </div>
@@ -85,7 +87,7 @@
   </script>
 
   <!-- Load the external sketches -->
-  <script src="sketchGrid.js"></script>
+  <script src="sketchTest.js"></script>
   <script src="sketchAnimation.js"></script>
 
 </body>

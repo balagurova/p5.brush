@@ -23,7 +23,8 @@ body {
 
  
 body{
-  background-color: #FCF7F3;
+  background-color: #FCFCF2;
+  color: #5158a8;
 }
 
 .content{
@@ -33,7 +34,7 @@ body{
 }
 
 h1{
-  color: #202297;
+
 text-align: center;
 font-family: "yrsa", serif;
 font-size: 48px;
@@ -45,7 +46,7 @@ margin-bottom: 24px;
 }
 
 p{
-  color: #202297;
+
 text-align: center;
 font-family: "proxima-nova", sans-serif;
 font-size: 16px;

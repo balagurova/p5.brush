@@ -6,7 +6,7 @@ let sketchAnimation = function(p) {
     let csvData;
     let canvasWidth;
     let canvasHeight;
-    let canvasMargin = 80;  // Same margin
+    let canvasMargin = 40;  // Same margin
 
     p.preload = function() {
         font = p.loadFont('./opensans.ttf');
