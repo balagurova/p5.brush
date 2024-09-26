@@ -92,7 +92,7 @@ let sketchGrid = function(p) {
         brush.rect(0, 0, cornerNoise1, cornerNoise2); 
 
         // Introduce randomness in line placement
-        brush.pick("2H");
+        brush.pick("HB");
         for(let i = 0; i < squareSize; i += 2.5){
           brush.line(0, i, squareSize, i); 
         }
@@ -110,6 +110,30 @@ let sketchGrid = function(p) {
     p.noLoop();  // Ensure that the grid is drawn once and doesn't continuously redraw
 };
 
+p.bird = function(x,y,size){
+    brush.pick("pen");
+    brush.stroke('#fff');
+    brush.strokeWeight(2);
+    brush.noFill();
+    
+    // Draw the left wing using vertex
+    brush.beginShape();
+    brush.vertex(x, y); // Start at the bird's body
+    brush.vertex(x - size / 2, y - size / 4); // Left tip of the wing
+    brush.vertex(x - size, y); // Left part of the wing returning to the body
+    brush.endShape();
+    
+    // Draw the right wing using vertex
+    brush.beginShape();
+    brush.vertex(x, y); // Start at the bird's body
+    brush.vertex(x + size / 2, y - size / 4); // Right tip of the wing
+    brush.vertex(x + size, y); // Right part of the wing returning to the body
+    brush.endShape();
+    
+    // Optionally draw a beak or head (simple triangle)
+    brush.line(x, y, x, y + size / 2); // Simple body line down
+
+}
 
 
   p.windowResized = function() {
