@@ -23,7 +23,7 @@ let sketchAnimation = function(p) {
 
         // Calculate layout and create canvas
         adjustLayout();
-        p.createCanvas(p.windowWidth, canvasHeight).parent('canvas-container');
+        p.createCanvas(p.windowWidth, canvasHeight)
         p.pixelDensity(4);
         p.textFont(font);
         p.textSize(12);

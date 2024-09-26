@@ -25,7 +25,7 @@ let sketchGrid = function(p) {
     adjustGridLayout();
 
     // Create the canvas with adjusted height
-    p.createCanvas(p.windowWidth, canvasHeight, p.WEBGL).parent('canvas-container');
+    p.createCanvas(p.windowWidth, canvasHeight, p.WEBGL)
     
     // Load the brush library
     brush.load(); 
@@ -76,41 +76,36 @@ let sketchGrid = function(p) {
         let noiseValue1 = p.noise(monthIndex * noiseFactor) * 10 - 5;
         let noiseValue2 = p.noise(monthIndex * noiseFactor + 100) * 10 - 5;
 
-
-        // (11) ["pen", "rotring", "2B", "HB", "2H", "cpencil", "charcoal", "hatch_brush", "spray", "marker", …]
-
-        
         // Draw rectangles at each grid position using brush
         p.push();
         p.translate(-p.windowWidth / 2 + xOffset, -canvasHeight / 2 + yOffset); 
-        
         brush.strokeWeight(1);
         brush.stroke('#202297');
         
         // Add Perlin noise to the rectangle's corners to make it imperfect
         let cornerNoise1 = squareSize + noiseValue1;
         let cornerNoise2 = squareSize + noiseValue2;
-       
-        brush.pick("pen");
-          brush.rect(0, 0, cornerNoise1, cornerNoise2); 
-
-
-
+        // p.fill('#424992');
+        // p.rect(0, 0, cornerNoise1, cornerNoise2);
+        // p.noFill();
         brush.pick("2H");
-        for(i=0;i<squareSize;i+=2.5){
+        brush.rect(0, 0, cornerNoise1, cornerNoise2); 
+
+        // Introduce randomness in line placement
+        brush.pick("2H");
+        for(let i = 0; i < squareSize; i += 2.5){
           brush.line(0, i, squareSize, i); 
         }
-        for(i=0;i<600;i+=2.5){
-          brush.line(p.random(0,200), p.random(0,squareSize), squareSize, p.random(0,squareSize)); 
+
+        for(let i = 0; i < squareSize; i += 1){
+          let xStart = p.random(0, squareSize);
+          let xEnd = p.random(0, squareSize); // Randomize the end point instead of fixing it at squareSize / 2
+          brush.line(xStart, i, xEnd, i);
         }
         
-        brush.pick("2H");
-        // brush.rect(0, 0, cornerNoise1, cornerNoise2);   
 
-        // brush.pick("hatch_brush");
-        // brush.rect(10, 10, cornerNoise1, cornerNoise2); 
         p.pop();
-            }
+    }
 
     p.noLoop();  // Ensure that the grid is drawn once and doesn't continuously redraw
 };
@@ -124,3 +119,4 @@ let sketchGrid = function(p) {
     p.redraw();  // Redraw the grid after resizing
   };
 };
+

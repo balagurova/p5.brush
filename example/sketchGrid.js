@@ -117,3 +117,4 @@ let sketchGrid = function(p) {
     };
   };
   
+  currentSketch1 = new p5(sketchGrid, 'canvas-container'); // Load the first grid sketch

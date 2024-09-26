@@ -6,36 +6,22 @@
   <script src="https://cdn.jsdelivr.net/npm/p5.brush@1.1.1/dist/p5.brush.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
   <meta charset="utf-8" />
-  <style>
-    .btn-segment {
-      padding: 10px 20px;
-      margin: 5px;
-      background-color: #F1F1E5;
-      border: 1px solid #ccc;
-      cursor: pointer;
-      display: inline-block;
-    }
-    .btn-segment:hover {
-      background-color: #ddd;
-    }
-    .btn-segment.active {
-      background-color: #ccc;
-    }
-  </style>
+
 </head>
 
 <body>
   <div class="content">
-    <div class="header">
-      <h1>Birdsong of Sorrow above Ukraine</h1>
-    <p>Lorem ipsum dolor sit amet consectetur. Ullamcorper at arcu eu non nibh pulvinar urna etiam tincidunt. In augue elementum eget sodales eget vehicula. Eget augue mi luctus senectus nullam. </p>
+    <div class="header" style="display: flex; flex-direction: column; justify-content: center;">
+      <img style="align-self: center; width: 700px;" src="/img/14-02.png" />
+      <!-- <h1>Birdsong of Sorrow above Ukraine</h1> -->
+    <p style="margin-bottom: 48px">Lorem ipsum dolor sit amet consectetur. Ullamcorper at arcu eu non nibh pulvinar urna etiam tincidunt. In augue elementum eget sodales eget vehicula. </p>
   </div>
 
     <!-- Segmented control to switch between scripts -->
     <div>
       <div id="test" class="test"></div>
-      <button id="btnGrid" class="btn-segment active" onclick="switchScript('grid')">Grid</button>
-      <button id="btnAnimation" class="btn-segment" onclick="switchScript('animation')">Birds</button>
+      <button id="btnGrid" class="btn-segment active" onclick="switchScript('grid')">Month by month</button>
+      <button id="btnAnimation" class="btn-segment" onclick="switchScript('animation')">All at Once</button>
     </div>
 
     <!-- Container for p5 canvas -->
