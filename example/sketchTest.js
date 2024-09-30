@@ -1,12 +1,11 @@
 let sketchGrid = function(p) {
   let cols, rows;
   let months = [];
-  let squareSize;           // Dynamically calculated square size
-  let canvasMargin = 80;    // Margin around the grid
-  let squareSpacing = 16;   // Spacing between squares
+  let squareSize;           
+  let canvasMargin = 80;    
+  let squareSpacing = 32;  
   let canvasHeight;
 
-  // Register instance method here, sending your function arg p
   brush.instance(p);
 
   p.preload = function() {
@@ -21,13 +20,15 @@ let sketchGrid = function(p) {
       months.push({ month, totalBirds });
     }
 
-    // Calculate grid layout based on window size
     adjustGridLayout();
-
-    // Create the canvas with adjusted height
-    p.createCanvas(p.windowWidth, canvasHeight, p.WEBGL)
     
-    // Load the brush library
+
+    p.createCanvas(p.windowWidth, canvasHeight, p.WEBGL)
+    p.angleMode(p.DEGREES);
+    p.textFont(font);
+    p.textSize(12);
+    
+    initializeBirds();
     brush.load(); 
   };
 
@@ -60,87 +61,87 @@ let sketchGrid = function(p) {
     document.getElementById('canvas-container').style.height = canvasHeight + "px";
   }
 
+  function initializeBirds() {
+    birds = []; 
+    for (let i = 0; i < months.length; i++) {
+      let monthBirds = [];
+      for (let j = 0; j < months[i].totalBirds; j++) {
+        let bird = {
+          x: p.random(10, squareSize - 10),
+          y: p.random(10, squareSize - 10),
+        };
+        monthBirds.push(bird);
+      }
+      birds.push(monthBirds);
+    }
+  }
+
   p.draw = function() {
     p.background('#FCFCF2');
 
-    // Loop through all months and place them in the grid row by row
     for (let monthIndex = 0; monthIndex < months.length; monthIndex++) {
-        // Calculate the row and column position based on the monthIndex
         let col = monthIndex % cols;
         let row = Math.floor(monthIndex / cols); 
 
         let xOffset = canvasMargin / 2 + col * (squareSize + squareSpacing);
         let yOffset = canvasMargin / 2 + row * (squareSize + squareSpacing);
-
-        let noiseFactor = 0.3; // Adjust this for more or less variation
-        let noiseValue1 = p.noise(monthIndex * noiseFactor) * 10 - 5;
-        let noiseValue2 = p.noise(monthIndex * noiseFactor + 100) * 10 - 5;
-
-        // Draw rectangles at each grid position using brush
+        
+        // Squares
         p.push();
         p.translate(-p.windowWidth / 2 + xOffset, -canvasHeight / 2 + yOffset); 
+        brush.pick('hatch_brush')
         brush.strokeWeight(1);
-        brush.stroke('#202297');
-        
-        // Add Perlin noise to the rectangle's corners to make it imperfect
-        let cornerNoise1 = squareSize + noiseValue1;
-        let cornerNoise2 = squareSize + noiseValue2;
-        // p.fill('#424992');
-        // p.rect(0, 0, cornerNoise1, cornerNoise2);
-        // p.noFill();
-        brush.pick("2H");
-        brush.rect(0, 0, cornerNoise1, cornerNoise2); 
+        brush.stroke('#202297'); 
+        brush.noFill();
+        let numLines = 300; 
+        let lineSpacing = squareSize / numLines;
 
-        // Introduce randomness in line placement
-        brush.pick("HB");
-        for(let i = 0; i < squareSize; i += 2.5){
-          brush.line(0, i, squareSize, i); 
+        for (let i = 0; i < numLines; i++) {
+            let y = i * lineSpacing;
+            brush.line(p.random(0,10), y, p.random(squareSize-10,squareSize),y);
         }
 
-        for(let i = 0; i < squareSize; i += 1){
-          let xStart = p.random(0, squareSize);
-          let xEnd = p.random(0, squareSize); // Randomize the end point instead of fixing it at squareSize / 2
-          brush.line(xStart, i, xEnd, i);
+        // Text
+        p.fill(0);
+        p.text(months[monthIndex].month, 0, -8);
+  
+        // Birds
+        for (let bird of birds[monthIndex]) {
+          p.fill('#202297');
+          p.noStroke();
+          p.bird(bird.x, bird.y, p.random(2,20));  
         }
-        
 
         p.pop();
     }
 
-    p.noLoop();  // Ensure that the grid is drawn once and doesn't continuously redraw
+    p.noLoop(); 
 };
 
-p.bird = function(x,y,size){
-    brush.pick("pen");
-    brush.stroke('#fff');
-    brush.strokeWeight(2);
-    brush.noFill();
-    
-    // Draw the left wing using vertex
-    brush.beginShape();
-    brush.vertex(x, y); // Start at the bird's body
-    brush.vertex(x - size / 2, y - size / 4); // Left tip of the wing
-    brush.vertex(x - size, y); // Left part of the wing returning to the body
-    brush.endShape();
-    
-    // Draw the right wing using vertex
-    brush.beginShape();
-    brush.vertex(x, y); // Start at the bird's body
-    brush.vertex(x + size / 2, y - size / 4); // Right tip of the wing
-    brush.vertex(x + size, y); // Right part of the wing returning to the body
-    brush.endShape();
-    
-    // Optionally draw a beak or head (simple triangle)
-    brush.line(x, y, x, y + size / 2); // Simple body line down
 
+
+p.bird = function(x,y,size){
+    p.stroke('#202297');
+    p.strokeWeight(2);
+    p.noFill();
+    
+    p.beginShape();
+    p.vertex(x, y); 
+    p.vertex(x - size / 2, y - size / 4); 
+    p.vertex(x - size, y); 
+    p.endShape();
+    
+    p.beginShape();
+    p.vertex(x, y); 
+    p.vertex(x + size / 2, y - size / 4); 
+    p.vertex(x + size, y); 
+    p.endShape();
 }
 
-
   p.windowResized = function() {
-    // Recalculate layout and resize the canvas when the window is resized
     adjustGridLayout();
     p.resizeCanvas(p.windowWidth, canvasHeight);
-    p.redraw();  // Redraw the grid after resizing
+    p.redraw();  
   };
 };
 
