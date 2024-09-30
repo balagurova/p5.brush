@@ -30,7 +30,11 @@ body {
  
 body{
   background-color: #e4e4ca91;
-  background-image: url("https://www.transparenttextures.com/patterns/notebook-dark.png");
+
+  background-image: url("https://www.transparenttextures.com/patterns/sandpaper.png");
+  /* background-image: url("https://www.transparenttextures.com/patterns/rice-paper-3.png"); */
+  /* background-image: url("https://www.transparenttextures.com/patterns/notebook-dark.png"); */
+  
   /* background-image: url("https://www.transparenttextures.com/patterns/notebook.png"); */
   /* background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png"); */
 /* background-image: url("https://www.transparenttextures.com/patterns/light-paper-fibers.png"); */
