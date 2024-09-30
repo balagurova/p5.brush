@@ -15,6 +15,12 @@ body {
     display: block;
     width: 100%;
     height: auto;
+    
+}
+
+#canvas-container {
+  mix-blend-mode: darken;
+  
 }
 
 #p5_loading {
@@ -23,7 +29,13 @@ body {
 
  
 body{
-  background-color: #FCFCF2;
+  background-color: #e4e4ca91;
+  background-image: url("https://www.transparenttextures.com/patterns/notebook-dark.png");
+  /* background-image: url("https://www.transparenttextures.com/patterns/notebook.png"); */
+  /* background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png"); */
+/* background-image: url("https://www.transparenttextures.com/patterns/light-paper-fibers.png"); */
+  /* background-image: url("https://www.transparenttextures.com/patterns/embossed-paper.png"); */
+/* background-image: url("https://www.transparenttextures.com/patterns/clean-gray-paper.png"); */
   color: #5158a8;
 }
 
