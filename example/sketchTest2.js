@@ -71,8 +71,6 @@ let sketchAnimation = function(p) {
 
       // Draw birds for this month
       for (let bird of birds[monthIndex]) {
-        p.fill('#202297');
-        p.noStroke();
         p.bird(bird.x, bird.y, p.random(2, 20));  // Draw bird at random positions within the line's height
       }
 
@@ -85,7 +83,7 @@ let sketchAnimation = function(p) {
   p.bird = function(x, y, size) {
     p.stroke('#202297');
     p.strokeWeight(2);
-    p.noFill();
+    p.fill('#202297');
     
     p.beginShape();
     p.vertex(x, y); 

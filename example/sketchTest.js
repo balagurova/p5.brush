@@ -28,8 +28,9 @@ let sketchGrid = function(p) {
     p.textFont(font);
     p.textSize(12);
     
-    initializeBirds();
+
     brush.load(); 
+    initializeBirds();
   };
 
   // Dynamically calculate grid layout and square size
@@ -86,10 +87,12 @@ let sketchGrid = function(p) {
         let xOffset = canvasMargin / 2 + col * (squareSize + squareSpacing);
         let yOffset = canvasMargin / 2 + row * (squareSize + squareSpacing);
         
-        // Squares
-        p.push();
+        p.push();  // Ensure the translation is isolated
         p.translate(-p.windowWidth / 2 + xOffset, -canvasHeight / 2 + yOffset); 
-        brush.pick('hatch_brush')
+
+        // Squares and lines (Brush drawing)
+        p.push();  // Start new drawing state for brush
+        brush.pick('2H')
         brush.strokeWeight(1);
         brush.stroke('#202297'); 
         brush.noFill();
@@ -98,18 +101,19 @@ let sketchGrid = function(p) {
 
         for (let i = 0; i < numLines; i++) {
             let y = i * lineSpacing;
-            brush.line(p.random(0,10), y, p.random(squareSize-10,squareSize),y);
+            brush.line(p.random(0,10), y, p.random(squareSize-10,squareSize), y);
         }
+        p.pop();  // End the isolated brush state
 
         // Text
         p.fill(0);
         p.text(months[monthIndex].month, 0, -8);
-  
-        // Birds
+
+        // Birds (Draw after lines and text)
         for (let bird of birds[monthIndex]) {
           p.fill('#202297');
           p.noStroke();
-          p.bird(bird.x, bird.y, p.random(2,20));  
+          p.bird(bird.x, bird.y, p.random(10, 20));  
         }
 
         p.pop();
@@ -120,23 +124,72 @@ let sketchGrid = function(p) {
 
 
 
-p.bird = function(x,y,size){
-    p.stroke('#202297');
-    p.strokeWeight(2);
-    p.noFill();
-    
-    p.beginShape();
-    p.vertex(x, y); 
-    p.vertex(x - size / 2, y - size / 4); 
-    p.vertex(x - size, y); 
-    p.endShape();
-    
-    p.beginShape();
-    p.vertex(x, y); 
-    p.vertex(x + size / 2, y - size / 4); 
-    p.vertex(x + size, y); 
-    p.endShape();
+p.bird = function(x, y, size) {
+
+  p.fill('#202297');  // Black fill for the bird silhouette
+
+// brush.field('seabed')
+// brush.pick('HB')
+  // brush.line(x - size / 2, y, x + size, y);
+
+  // Draw the bird's body (with sharp, tapered corners)
+  p.beginShape();
+  p.vertex(x - size / 2, y);  // Leftmost point (sharp corner)
+  p.bezierVertex(x - size / 4, y - size / 8, x + size / 4, y - size / 8, x + size / 2, y);  // Top curve (thinner height)
+  p.bezierVertex(x + size / 4, y + size / 8, x - size / 4, y + size / 8, x - size / 2, y);  // Bottom curve (thinner height)
+  p.endShape(p.CLOSE);  // Close the shape to form the body
+
+  // Randomize which wings to draw (1: top wing, 2: bottom wing, 3: both wings)
+  let wingsOption = p.floor(p.random(1, 4));  // Random number between 1 and 3
+
+  // Draw the top wing (arc-like, only if wingsOption is 1 or 3)
+  if (wingsOption === 1 || wingsOption === 3) {
+      p.beginShape();
+      p.vertex(x, y);  // Start at the center of the body
+      // Thinner and arc-like top wing
+      p.bezierVertex(x - size / 3, y - size / 4, x + size / 3, y - size / 2, x + size / 2, y - size / 3);  // Arc shape
+      p.vertex(x, y);  // Connect back to the body
+      p.endShape(p.CLOSE);  // Close the shape to fill the top wing
+  }
+
+  // Draw the bottom wing (arc-like, only if wingsOption is 2 or 3)
+  if (wingsOption === 2 || wingsOption === 3) {
+      p.beginShape();
+      p.vertex(x, y);  // Start at the center of the body
+      // Thinner and arc-like bottom wing
+      p.bezierVertex(x - size / 3, y + size / 4, x + size / 3, y + size / 2, x + size / 2, y + size / 3);  // Arc shape
+      p.vertex(x, y);  // Connect back to the body
+      p.endShape(p.CLOSE);  // Close the shape to fill the bottom wing
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+// p.bird = function(x,y,size){
+//     p.stroke('#202297');
+//     p.strokeWeight(2);
+//     p.noFill();
+    
+//     p.beginShape();
+//     p.vertex(x, y); 
+//     p.vertex(x - size / 2, y - size / 4); 
+//     p.vertex(x - size, y); 
+//     p.endShape();
+    
+//     p.beginShape();
+//     p.vertex(x, y); 
+//     p.vertex(x + size / 2, y - size / 4); 
+//     p.vertex(x + size, y); 
+//     p.endShape();
+// }
 
   p.windowResized = function() {
     adjustGridLayout();
